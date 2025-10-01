@@ -4,10 +4,22 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calendar, Clock, ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import { getBlogPostBySlug, getRelatedPosts } from "@/lib/blog-data"
+import { getBlogPostBySlug, getRelatedPosts, getAllBlogPosts } from "@/lib/blog-data"
 import { generateSEO } from "@/lib/seo"
 import type { Locale } from "@/lib/i18n"
 import { notFound } from "next/navigation"
+
+export async function generateStaticParams() {
+  const posts = getAllBlogPosts()
+  const locales = ['pt', 'en', 'es']
+  
+  return posts.flatMap(post => 
+    locales.map(locale => ({
+      locale: locale as Locale,
+      slug: post.slug
+    }))
+  )
+}
 
 export async function generateMetadata({ params }: { params: { locale: Locale; slug: string } }) {
   const post = getBlogPostBySlug(params.slug)
