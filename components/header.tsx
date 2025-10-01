@@ -2,7 +2,6 @@
 
 import React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Globe } from "lucide-react"
 import { useState } from "react"
@@ -25,14 +24,6 @@ interface HeaderProps {
 
 export function Header({ locale, translations }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  
-  // Só usar usePathname após o componente estar montado
-  const pathname = mounted ? usePathname() : `/${locale}`
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const navigation = [
     { name: translations.nav.home, href: `/${locale}` },
@@ -44,9 +35,9 @@ export function Header({ locale, translations }: HeaderProps) {
   ]
 
   const changeLocale = (newLocale: Locale) => {
-    if (mounted && typeof window !== 'undefined') {
-      const pathWithoutLocale = pathname.replace(`/${locale}`, "")
-      window.location.href = `/${newLocale}${pathWithoutLocale}`
+    if (typeof window !== 'undefined') {
+      // Redirecionar para a página inicial do novo locale
+      window.location.href = `/${newLocale}/`
     }
   }
 

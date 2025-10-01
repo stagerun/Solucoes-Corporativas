@@ -4,8 +4,6 @@ import { Inter, Roboto_Mono } from "next/font/google"
 import "@/app/globals.css"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { Toaster } from "@/components/ui/toaster"
-import { NoSSR } from "@/components/no-ssr"
 import { type Locale, locales } from "@/lib/i18n"
 import { getTranslations } from "@/lib/translations"
 
@@ -51,9 +49,6 @@ export default function LocaleLayout({
         <Header locale={params.locale} translations={translations} />
         <main className="min-h-screen">{children}</main>
         <Footer locale={params.locale} translations={translations} />
-        <NoSSR>
-          <Toaster />
-        </NoSSR>
       </body>
     </html>
   )
