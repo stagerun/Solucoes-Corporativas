@@ -10,11 +10,6 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
-  output: 'export',
-  distDir: 'out',
-  experimental: {
-    appDir: true,
-  },
 }
 
 export default nextConfig

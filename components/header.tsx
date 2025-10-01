@@ -1,5 +1,6 @@
 "use client"
 
+import React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -24,7 +25,14 @@ interface HeaderProps {
 
 export function Header({ locale, translations }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
+  const [mounted, setMounted] = useState(false)
+  
+  // Só usar usePathname após o componente estar montado
+  const pathname = mounted ? usePathname() : `/${locale}`
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const navigation = [
     { name: translations.nav.home, href: `/${locale}` },
@@ -36,8 +44,8 @@ export function Header({ locale, translations }: HeaderProps) {
   ]
 
   const changeLocale = (newLocale: Locale) => {
-    const pathWithoutLocale = pathname.replace(`/${locale}`, "")
-    if (typeof window !== 'undefined') {
+    if (mounted && typeof window !== 'undefined') {
+      const pathWithoutLocale = pathname.replace(`/${locale}`, "")
       window.location.href = `/${newLocale}${pathWithoutLocale}`
     }
   }
