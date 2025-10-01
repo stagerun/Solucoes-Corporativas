@@ -7,9 +7,14 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: false,
+    unoptimized: true,
   },
   trailingSlash: true,
+  output: 'export',
+  distDir: 'out',
+  experimental: {
+    appDir: true,
+  },
 }
 
 export default nextConfig
